@@ -5,6 +5,13 @@ import userRouter from "./routes/user.routes.js";
 import adminRouter from "./routes/admin.route.js";
 import roleRequestRouter from "./routes/roleRequest.routes.js";
 import mentorRouter from "./routes/mentor.route.js";
+import dotenv from "dotenv";
+import mentorCourseRouter from "./routes/mentor.course.route.js";
+import mentorProfileRouter from "./routes/mentor.profile.route.js";
+
+
+
+
 const app = express();
 dotenv.config()
 app.use(cors({
@@ -18,10 +25,17 @@ app.use(express.static("public"))
 app.use(cookieParser())
 
 
+
+
+
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/role-requests", roleRequestRouter);
 app.use("/api/v1/mentor", mentorRouter);
+app.use("/api/v1/mentor", mentorCourseRouter);
+app.use("/api/v1/mentor", mentorProfileRouter);
+
+
 
 
 
