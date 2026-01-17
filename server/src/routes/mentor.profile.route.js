@@ -5,12 +5,7 @@ import { updateMentorProfile } from "../controller/mentorProfile.controller.js";
 
 const router = Router();
 
-// router.patch(
-//   "/profile",
-//   verifyJWT,
-//   authorizeRoles("mentor"),
-//   updateMentorProfile
-// );
+
 
 router.route("/profile").patch(verifyJWT,authorizeRoles("mentor"),updateMentorProfile)
 
