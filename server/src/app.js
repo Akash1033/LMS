@@ -6,7 +6,7 @@ import adminRouter from "./routes/admin.route.js";
 import roleRequestRouter from "./routes/roleRequest.routes.js";
 import mentorRouter from "./routes/mentor.route.js";
 const app = express();
-
+dotenv.config()
 app.use(cors({
     origin : process.env.CORS_ORIGIN,
     credentials:true
