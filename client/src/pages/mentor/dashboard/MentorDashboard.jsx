@@ -1,6 +1,11 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function MentorDashboard() {
+  const navigate = useNavigate()
+  const courseClick = ()=>{
+    navigate('/mentor/courses')
+  }
   return (
     <div>
       <div className="min-h-screen bg-gray-200 p-4 md:p-8">
@@ -54,11 +59,11 @@ function MentorDashboard() {
                 key={course}
                 className="border rounded-lg p-4 hover:shadow-md transition"
               >
-                <h3 className="font-semibold mb-2">Course Title</h3>
+                <h3 className="font-semibold mb-2">Web Dev</h3>
                 <p className="text-sm text-gray-600 mb-3">
                   Short description of the course content.
                 </p>
-                <button className="text-sm text-blue-600 font-medium">
+                <button className="text-sm text-blue-600 font-medium" onClick={courseClick}>
                   View Course →
                 </button>
               </div>
