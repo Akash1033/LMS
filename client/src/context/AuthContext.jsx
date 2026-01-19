@@ -5,28 +5,30 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const checkAuth = async () => {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem("token");
             if (!token) {
                 setLoading(false);
                 return;
             }
+
             try {
                 const response = await axios.get(
-                    'http://localhost:3000/api/v1/users/current-user',
+                    "http://localhost:3000/api/v1/users/current-user",
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
                     }
                 );
-                const data = await response.data;
-                setUser(data);
-            } catch (error) {
-                localStorage.removeItem('token');
+                console.log("Check Auth: ", response.data.data);
+                setUser(response.data.data); // ✅ CRITICAL
+                console.log("USER IN AUTHCONTEXT: ", user);
+            } catch (err) {
+                localStorage.removeItem("token");
                 setUser(null);
             } finally {
                 setLoading(false);
@@ -37,18 +39,17 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData, token) => {
-        localStorage.setItem('token', token);
-        console.log("I'm in AuthContext.js");
-        console.log("User Data : " + userData);
-        setUser(userData);
+        localStorage.setItem("token", token);
+        setUser(userData); // userData MUST already be the user object
     };
+
     const logout = () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
         setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout }}>
+        <AuthContext.Provider value={{ user, setLoading, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
