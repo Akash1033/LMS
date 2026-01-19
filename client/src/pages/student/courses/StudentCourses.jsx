@@ -1,19 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
+import Loading from "../../../components/Loading"
 
 function StudentCourses() {
   const navigate = useNavigate();
-  useEffect(()=>{
-    checkLoggin();
-  }, [])
-  const checkLoggin = async ()=>{
-    const token = localStorage.getItem("Token");
-    console.log(token);
-    if (typeof token !== "string" || token.trim() === "") {
-      navigate('/');
-      return;
-    }
-  }
+  const {user} = useAuth()
+
+  const [loading, setLoading] = useState(false);
+
+  
+
+
+
+  if(loading) return <Loading />
   return (
     
     <div className="space-y-8 p-6 max-w-full">

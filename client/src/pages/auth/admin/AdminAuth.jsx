@@ -2,58 +2,66 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../../context/AuthContext";
 
 function AdminAuth() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {login} = useAuth();
 
   //Check if already loggedIn
 
-  useEffect(()=>{
-    checkIfLoggedIn()
-  })
-  const checkIfLoggedIn = async ()=>{
-    const token = localStorage.getItem("adminToken");
-    if(!token){ return}
-    if (token) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/users/current-user",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        navigate(`/admin/dashboard`);
-        console.log(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
-  const APIusingAuth = async () => {
-    try {
-      console.log(email + password);
-      const response = await axios.post(
-        `http://localhost:3000/api/v1/users/login`,
-        { email, password }
-      );
-      console.log(response.data.data.accessToken);
-      console.log("Loged In");
-      localStorage.setItem("adminToken", response.data.data.accessToken)
+  // useEffect(()=>{
+  //   checkIfLoggedIn()
+  // })
+  // const checkIfLoggedIn = async ()=>{
+  //   const token = localStorage.getItem("adminToken");
+  //   if(!token){ return}
+  //   if (token) {
+  //     try {
+  //       const response = await axios.get(
+  //         "http://localhost:3000/api/v1/users/current-user",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         }
+  //       );
+  //       navigate(`/admin/dashboard`);
+  //       console.log(response.data.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // }
+  // const APIusingAuth = async () => {
+  //   try {
+  //     console.log(email + password);
+  //     const response = await axios.post(
+  //       `http://localhost:3000/api/v1/users/login`,
+  //       { email, password }
+  //     );
+  //     console.log(response.data.data.accessToken);
+  //     console.log("Loged In");
+  //     localStorage.setItem("adminToken", response.data.data.accessToken)
 
-      navigate("/admin/dashboard");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     navigate("/admin/dashboard");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic
-    //Auth Logic
-    APIusingAuth();
+    try {
+      
+    } catch (error) {
+      
+    }
+    login()
   };
 
   return (

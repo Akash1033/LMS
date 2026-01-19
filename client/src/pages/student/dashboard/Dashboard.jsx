@@ -1,35 +1,13 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StudentLogout from '../../auth/student/StudentLogout';
+import { useAuth } from '../../../context/AuthContext';
 
 function Dashboard() {
   const navigate = useNavigate();
-  useEffect(()=>{
-    checkLoggin();
-  }, [])
-  const checkLoggin = async ()=>{
-    const token = localStorage.getItem("Token");
-    console.log(token);
-    if (typeof token !== "string" || token.trim() === "") {
-      navigate('/');
-      return;
-    }
-    try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/users/current-user",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        navigate(`/student/dashboard`);
-        console.log(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    
-  }
+  const {user } = useAuth()
+  console.log("IN DASHBOARD OF USER: " , user);
+  
   return (
     <div className="flex flex-col items-center justify-center h-screen w-full bg-gray-100 gap-4">
       <h1 className="text-2xl font-bold text-gray-800">Welcome to Your Dashboard</h1>

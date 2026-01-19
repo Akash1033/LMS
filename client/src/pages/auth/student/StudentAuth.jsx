@@ -1,80 +1,46 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../../../context/AuthContext";
+import Loading from "../../../components/Loading";
 
 function StudentAuth() {
-  useEffect(() => {
-    alredyLoggedIn();
-  }, []);
+  // console.log("Student Auth.jsx");
+ 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false)
+  // console.log(email +  password);
 
-  /// IF We already have JWT token
-  const alredyLoggedIn = async () => {
-    const token = localStorage.getItem("Token");
-    if(!token){ return}
-    if (token) {
-      try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/users/current-user",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        navigate(`/student/dashboard`);
-        console.log(response.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const [loading, setLoading] = useState(false);
-  const PORT = 3000;
-
-  const authUsingAPI = async () => {
-    console.log("Inside auth BLOCK");
-
-    try {
-      console.log("Before response");
-      const response = await axios.post(
-        `http://localhost:3000/api/v1/users/login`,
-        { email, password }
-      );
-      console.log();
-      console.log("After response");
-      if (!response) {
-        throw console.error("User Not found");
-        return;
-      }
-      const token = await response.data.data.accessToken;
-      localStorage.setItem("Token", token);
-
-      navigate(`/student/dashboard`);
-    } catch (err) {
-      console.log("Inside catch BLOCK");
-      console.log("Error: " + err);
-      // setError(err.message)
-      setLoading(false);
-    }
-  };
-
+  const { login,  }  = useAuth();
   const navigate = useNavigate();
-
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const handleSubmit = (e) => {
+  // console.log("Above handleLogin");
+  const handleLogin = async (e)=>{
     e.preventDefault();
-    // authentication logic here
-    authUsingAPI();
-  };
-
-  if(loading) return (<>Loading</>)
-    
+    setLoading(true)
+    try {
+      // console.log("Inside try");
+      const response = await axios.post("http://localhost:3000/api/v1/users/login", { email, password});
+      setLoading(true)
+      // console.log("Response: " ,  response.data.data.user);
+      
+      login(response.data.data.user, response.data.data.accessToken)
+// 
+      // console.log("After login");
+      setLoading(false)
+      navigate('/student/dashboard', { replace: true}); 
+    } catch (err) {
+      alert("Login Failed: " + err.response?.data?.message );
+    }
+    setLoading(false)
+  }
+  // console.log("Below handleLogin");
+  if(loading) return <Loading />
   return (
-    <div className=" min-h-screen w-1/2 flex flex-col items-center justify-center ">
+    <div className=" min-h-screen w-1/2 flex flex-col items-center justify-center ThhisIsWhereIAm ">
+     
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleLogin}
         className="bg-gray-50 p-6 rounded shadow-xl w-3/4 "
       >
         <h2 className="text-3xl mb-3  font-semibold">Login </h2>
