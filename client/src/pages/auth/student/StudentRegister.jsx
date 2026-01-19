@@ -12,55 +12,32 @@ function StudentRegister() {
     email: "",
     password: "",
   });
-  
+  const [submitting, setSubmitting] = useState(false);
   const [confirmPass, setConfirmPass] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   fetchStudentProfile();
-  // }, []);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) =>{
     e.preventDefault();
-    console.log({ ...form });
-    if (form.password !== confirmPass) {
-      setLoading(false);
-      console.log("Password doesn't match");
-      return;
-    }
-    console.log("👀 Password Ok ");
+    setSubmitting(true);
     try {
-      console.log("👀 I'm in try Block");
-      // setLoading(true);
-
       const response = await axios.post(
         "http://localhost:3000/api/v1/users/register",
         {
-          ...form,
-          role: "student",
+          ...form, 
         }
-      );
+      )
       console.log(response);
-      console.log("👀 RSPONSE SEND");
-      // setStudent(response.data.user);
-      setLoading(false);
-      console.log("👀 DONE");
-      navigate(`/student/dashboard`);
-    } catch (err) {
-      console.log("👀 Inside catch");
-      setError(err.response?.data?.message || "Registration failed");
-      console.log("👀 Error" + error);
-      console.log(err);
-      setLoading(false);
-    }
-  };
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // authentication logic here
-  //   navigate(`/student/verify`);
-  // };
+      alert(response.data.message)
+      navigate('/student/login', {replace: true})
+    } catch (error) {
+      alert(error.response?.data?.message || "Registration failed");
 
+    }finally{
+      setSubmitting(false)
+    }
+  }
+
+
+  
   return (
     <div className=" min-h-screen flex items-center justify-center w-1/2">
       <form onSubmit={handleSubmit} className=" p-6 rounded shadow-lg ">
@@ -105,6 +82,7 @@ function StudentRegister() {
             className="border p-2 mb-4 w-full rounded-lg"
           />
           <button
+             disabled={submitting}
             type="submit"
             className="bg-green-500 text-white p-2 rounded w-full"
           >

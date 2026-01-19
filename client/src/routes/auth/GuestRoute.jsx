@@ -1,13 +1,29 @@
-import { Outlet, Navigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'
+import { Outlet, Navigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
-const GuestRoute = ()=>{
-    const {user, loading} = useAuth();
-    if(loading) return <div> Loading... </div>
-    if (user) {
-        return <Navigate to="/student/dashboard" replace />;
-    }
-    return <Outlet/>
-}
+const ROLE_REDIRECT = {
+  student: "/student/dashboard",
+  admin: "/admin/dashboard",
+  mentor: "/mentor/dashboard",
+};
 
-export default GuestRoute
+const GuestRoute = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <div>Loading...</div>;
+
+  // Logged-in users should never see guest pages
+  if (user) {
+    return (
+      <Navigate
+        to={ROLE_REDIRECT[user.role] || "/"}
+        replace
+      />
+    );
+  }
+
+  // Guest users can proceed
+  return <Outlet />;
+};
+
+export default GuestRoute;

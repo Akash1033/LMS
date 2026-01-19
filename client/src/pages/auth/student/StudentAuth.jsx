@@ -5,28 +5,28 @@ import { useAuth } from "../../../context/AuthContext";
 import Loading from "../../../components/Loading";
 
 function StudentAuth() {
-  console.log("Student Auth.jsx");
+  // console.log("Student Auth.jsx");
  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false)
-  console.log(email +  password);
+  // console.log(email +  password);
 
   const { login,  }  = useAuth();
   const navigate = useNavigate();
-  console.log("Above handleLogin");
+  // console.log("Above handleLogin");
   const handleLogin = async (e)=>{
     e.preventDefault();
     setLoading(true)
     try {
-      console.log("Inside try");
+      // console.log("Inside try");
       const response = await axios.post("http://localhost:3000/api/v1/users/login", { email, password});
       setLoading(true)
-      console.log("Response: " ,  response.data.data.user);
+      // console.log("Response: " ,  response.data.data.user);
       
       login(response.data.data.user, response.data.data.accessToken)
-
-      console.log("After login");
+// 
+      // console.log("After login");
       setLoading(false)
       navigate('/student/dashboard', { replace: true}); 
     } catch (err) {
@@ -34,7 +34,7 @@ function StudentAuth() {
     }
     setLoading(false)
   }
-  console.log("Below handleLogin");
+  // console.log("Below handleLogin");
   if(loading) return <Loading />
   return (
     <div className=" min-h-screen w-1/2 flex flex-col items-center justify-center ThhisIsWhereIAm ">
