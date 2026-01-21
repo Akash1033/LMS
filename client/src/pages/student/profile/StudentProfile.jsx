@@ -22,7 +22,7 @@ function StudentProfile() {
         <div className="flex flex-col items-center justify-center border-r md:col-span-1">
           <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-500">
             <img
-              src={user.avatar || "/default-avatar.png"}
+              src={user.avatar || "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.vecteezy.com%2Fsystem%2Fresources%2Fpreviews%2F000%2F439%2F863%2Foriginal%2Fvector-users-icon.jpg&f=1&nofb=1&ipt=81bcaa7d2338b862392452a136b859b8becd204da62ec2b0c4782db7b0dace4c"}
               alt="user.jpg"
               className="w-full h-full object-cover"
             />

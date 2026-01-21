@@ -38,6 +38,7 @@ const StudentRoutes = () => (
             <Route path="/student/dashboard" element={<StudentDashboard />} />
             <Route path="/student/profile" element={<StudentProfile />} />
             <Route path="/student/courses" element={<StudentCourses />} />
+            {/* <Route path={`/student/courses/watch/:${courseId}`} element={<StudentCourses />} /> */}
             <Route
                 path="/student/update-profile"
                 element={<StudentUpdateDetails />}
