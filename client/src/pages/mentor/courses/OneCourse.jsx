@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function OneCourse() {
+    const navigate = useNavigate()
     const { courseId } = useParams();
     const token = localStorage.getItem('token');
     console.log(courseId);
@@ -10,7 +11,7 @@ function OneCourse() {
     const [sections, setSection] = useState(null);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    
     useEffect(() => {
         const fetchCourse = async () => {
             try {
@@ -84,22 +85,27 @@ function OneCourse() {
                             </h2>
 
                             <div className="space-y-3">
+                                <button className="w-full px-4 py-2 rounded-lg border bg-blue-200 hover:bg-gray-100" onClick={()=>navigate(`/mentor/${section._id}/addlesson`)}>
+                                Add Lesson
+                            </button>
                                 {section.lessons?.map((lesson) => (
                                     <div
                                         key={lesson._id}
                                         className="flex items-center justify-between border rounded-lg p-4"
                                     >
                                         <div>
+                                            
                                             <h3 className="font-medium text-gray-800">
                                                 {lesson.title}
                                             </h3>
+                                            
                                             <p className="text-sm text-gray-500">
                                                 Order: {lesson.order}
                                             </p>
                                         </div>
 
                                         {lesson.isPreview && (
-                                            <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700">
+                                            <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 cursor-pointer" onClick={()=>{navigate(`/mentor/previewcourse`)}} >
                                                 Preview
                                             </span>
                                         )}
@@ -167,9 +173,7 @@ function OneCourse() {
                             <button className="w-full px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
                                 Add Section
                             </button>
-                            <button className="w-full px-4 py-2 rounded-lg border hover:bg-gray-100">
-                                Add Lesson
-                            </button>
+                            
                             <button className="w-full px-4 py-2 rounded-lg border hover:bg-gray-100">
                                 Edit Course
                             </button>
