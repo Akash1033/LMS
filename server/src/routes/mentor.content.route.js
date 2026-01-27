@@ -7,7 +7,7 @@ import { createLesson } from "../controller/lesson.controller.js";
 const router = Router();
 
 
-router.route("/courses/:courseId/sections").post(verifyJWT , authorizeRoles("mentor"), createSection)
+router.route("/courses/:courseId/sections").post(verifyJWT , authorizeRoles("mentor"),createSection)
 router.route("/sections/:sectionId/lessons").post(verifyJWT , authorizeRoles("mentor"),createLesson)
 
 export default router;
